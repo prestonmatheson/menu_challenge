@@ -1,0 +1,91 @@
+menu = {"cheeseburger" => "$4", "fries" => "$1", "shake" => "$2.50", "drink" => "$1.50", "double-double" => "$5"}
+
+puts menu
+
+@running_total = Hash.new(0)
+ @survey = Hash.new(0)
+
+def employee
+  print "What item would you like to order(one at a time please!)?"
+  
+  order = gets.chomp.downcase
+
+  case order
+    when "cheeseburger"
+      @running_total[:cheeseburger.to_s] = 4
+      puts "Cheeseburger: $4"
+    when "fries"
+      @running_total[:fries.to_s] = 1
+      puts "Fries: $1"
+    when "shake"
+      @running_total[:shake.to_s] = 2.5
+      puts "Shake: $2.50"
+    when "drink"
+      @running_total[:drink.to_s] = 1.5
+      puts "Drink: $1.50"
+    when "double-double"
+      @running_total[:double_double.to_s] = 5
+      puts "Double-double: $5"
+    else 
+      puts "We don't carry that item"
+  end
+  
+  print "Is there anything else you would like?(Yes/No?)"
+
+  ans = gets.chomp.downcase
+  
+  if ans == "yes"
+    employee()
+  else 
+    puts @running_total.to_s +  "Total: $"+ @running_total.values.inject(&:+).to_s
+  end
+end
+
+employee
+
+
+def cust_survey
+    print "What's your name?"
+      @first_name = gets.chomp
+    print "How would you rate your experience today? (1-5)"
+      @rating = gets.chomp
+    @survey[@first_name.to_sym] = @rating  
+end
+
+cust_survey
+
+puts @survey
+
+def next_cust
+print "is the next customer ready?(yes/no)"
+  @new_cust = gets.chomp.downcase
+end
+
+next_cust
+
+def again
+    employee
+    cust_survey
+    next_cust
+    repeat
+end
+
+def repeat
+  if @new_cust == 'yes'
+      again
+    else
+    puts "It's about time I had a break!"
+  end
+end
+
+repeat
+
+
+
+puts @survey.sort_by {|_key, value| value}.reverse.to_h
+
+
+
+
+
+
